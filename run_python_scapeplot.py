@@ -1,6 +1,7 @@
 import os, time
 from multiprocessing import Pool
 from argparse import ArgumentParser
+from pathlib import Path
 
 import numpy as np
 
@@ -32,7 +33,7 @@ penalty = -2                                     # all values below ``rel_thresh
 
 
 def compute_piece_ssm_scplot(idx, audio_dir, audio_file, ssm_out_dir, fitness_out_dir):
-    print ('>> now processing file no. {} ...'.format(idx))
+    # print ('>> now processing file no. {} ...'.format(idx))
     time_st = time.time()
     full_af_path = os.path.join(audio_dir, audio_file)
     af_ext = os.path.splitext(audio_file)[-1]
@@ -93,7 +94,9 @@ if __name__ == "__main__":
     os.makedirs(ssm_dir)
 
   # get audio files
-  audio_files = sorted( os.listdir(audio_dir) )
+  # audio_files = sorted( os.listdir(audio_dir) )
+  audio_files = sorted(list(Path(audio_dir).glob("*.wav")))
+  audio_files = [str(f) for f in audio_files]
   print ('number of audios:', len(audio_files))
 
   # multi-processing
